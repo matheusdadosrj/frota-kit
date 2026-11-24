@@ -85,7 +85,7 @@ No real data (plates `ZZ…`, "Motorista 07", zeroed tax IDs). Secrets only in `
 
 ## Author
 
-Matheus Ramos Amorim dos Santos — [GitHub](https://github.com/matheusdadosrj) · [e-mail](mailto:matheus.dadosrj@gmail.com)
+Matheus Ramos Amorim dos Santos — [LinkedIn](https://www.linkedin.com/in/matheus-ramos-dados/) · [GitHub](https://github.com/matheusdadosrj) · [e-mail](mailto:matheus.dadosrj@gmail.com)
 
 ## License, citation and "tell me you use it"
 
