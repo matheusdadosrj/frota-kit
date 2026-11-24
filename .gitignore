@@ -1,0 +1,20 @@
+# segredos e configuração local
+.env
+config/*.local.yaml
+config/*.local.csv
+# dados gerados / reais
+dados_exemplo/
+dados/
+saida/
+*.sqlite
+*.db
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.streamlit/secrets.toml
