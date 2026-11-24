@@ -137,7 +137,7 @@ qualquer operação. A história, os problemas e o que funcionou estão em
 
 ## Autor
 
-Matheus Ramos Amorim dos Santos — [GitHub](https://github.com/matheusdadosrj) · [e-mail](mailto:matheus.dadosrj@gmail.com)
+Matheus Ramos Amorim dos Santos — [LinkedIn](https://www.linkedin.com/in/matheus-ramos-dados/) · [GitHub](https://github.com/matheusdadosrj) · [e-mail](mailto:matheus.dadosrj@gmail.com)
 
 ## Licença, citação e "me conte que usa"
 
