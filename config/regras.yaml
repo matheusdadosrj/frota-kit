@@ -1,0 +1,64 @@
+# Regras de negócio do kit. Tudo aqui pode ser ajustado sem mexer no código.
+# Valores omitidos usam o padrão de frotakit/regras.py.
+
+disponibilidade:
+  # Status do cadastro que tiram o veículo da frota (comparação sem acento, maiúsculas).
+  status_fora_da_frota: [DESMOBILIZADO, VENDIDO, DEVOLVIDO, SINISTRO, BAIXADO]
+  # Status de OS que significam "o veículo ainda está na oficina".
+  status_os_aberta: [ABERTA, EM ANDAMENTO, AGUARDANDO PECA, AGUARDANDO APROVACAO]
+  # Sem uso, abastecimento nem posição de rastreador há mais de N dias -> "Disponível (ocioso)".
+  dias_ocioso: 7
+  # Rastreador sem posição há mais de N dias -> alerta.
+  dias_sem_sinal: 3
+  # Ordem de avaliação. A primeira regra que se aplica decide a situação; as outras viram alertas.
+  #   decisao_manual     decisão registrada em config/decisoes.csv (acao = situacao)
+  #   fora_da_frota      status de baixa no cadastro
+  #   os_aberta          ordem de serviço aberta
+  #   diario_manutencao  última sigla do diário é de manutenção (ex.: M), mesmo sem OS
+  #   a_confirmar        última sigla do diário não está no dicionário
+  #   ocioso             sem atividade há mais de dias_ocioso
+  #   em_operacao        todo o resto
+  ordem: [decisao_manual, fora_da_frota, os_aberta, diario_manutencao, a_confirmar, ocioso, em_operacao]
+  # Quantos dias para trás calcular a situação dia a dia (histórico e disponibilidade média).
+  dias_historico: 30
+
+diario:
+  # Significado das siglas do diário de bordo (sigla;significado;grupo). Editável pela operação.
+  dicionario: config/dicionario_status.csv
+  # A última sigla só vale se for de até N dias antes da data de referência.
+  validade_dias: 3
+
+consumo:
+  # Faixa plausível de km/L e autonomia por grupo de veículo. Fora disso o intervalo é descartado
+  # (e o motivo fica registrado).
+  grupos:
+    carro:      {kml_min: 6,   kml_max: 20,  autonomia_km: 800}
+    utilitario: {kml_min: 5,   kml_max: 16,  autonomia_km: 700}
+    van:        {kml_min: 4,   kml_max: 13,  autonomia_km: 900}
+    caminhao:   {kml_min: 1.5, kml_max: 7,   autonomia_km: 1200}
+    padrao:     {kml_min: 1.5, kml_max: 25,  autonomia_km: 1000}
+  # Um "tanque cheio" que colocou >= 90% da capacidade é aceito como cheio.
+  tanque_referencia: 0.90
+  # Mesmos litros e mesmo odômetro em até N minutos: registro em dobro.
+  minutos_duplicado: 30
+  # Litros acima de capacidade x folga: abastecimento maior que o tanque.
+  folga_tanque: 1.10
+  # Intervalo com km/L acima do típico da placa por mais que isto (e o seguinte abaixo) = padrão serrote.
+  limiar_serrote: 0.20
+  # Mínimo de veículos no grupo para usar a mediana do grupo como referência de desperdício.
+  minimo_grupo: 4
+
+solicitacoes:
+  # Mesma placa e mesmo odômetro em até N horas: o formulário foi reenviado.
+  horas_reenvio: 2
+  # Regex de placa válida (Mercosul e antiga).
+  regex_placa: "^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$"
+
+analise:
+  # Bootstrap para o intervalo de confiança da diferença de cada motorista.
+  reamostragens: 1000
+  minimo_intervalos_motorista: 4
+  # Só aponta o motorista se a diferença média passar disto E o intervalo de confiança excluir zero.
+  desvio_relevante: 0.05
+  # Postos mais caros que a mediana da cidade/produto/mês por mais que isto entram no ranking.
+  sobrepreco_minimo: 0.03

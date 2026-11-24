@@ -1,0 +1,11 @@
+sigla;significado;grupo
+C;Coleta;rodou
+RI;Rota infrutífera;rodou
+RD;Reentrega;rodou
+M;Manutenção;manutencao
+OF;Oficina;manutencao
+F;Folga;parado
+FF;Falta do motorista;parado
+SR;Sem rota;parado
+SM;Sem motorista;parado
+TO;Transferência de operação;parado

@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "Se você usar o frota-kit num trabalho, relatório ou produto, por favor cite assim. / If you use frota-kit, please cite it as below."
+title: "frota-kit: controle de frota a partir de qualquer fonte"
+abstract: "Kit em Python para disponibilidade de frota, consumo real de combustível e alertas de abastecimento a partir de ERP, APIs, planilhas e diário de bordo."
+type: software
+authors:
+  - given-names: Matheus Ramos Amorim
+    name-particle: dos
+    family-names: Santos
+version: 1.0.0
+date-released: 2026-11-24
+license: Apache-2.0
+repository-code: "https://github.com/matheusdadosrj/frota-kit"
+keywords:
+  - gestão de frota
+  - fleet management
+  - logística
+  - python
+  - pandas
+  - streamlit

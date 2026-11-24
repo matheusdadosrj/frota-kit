@@ -1,0 +1,68 @@
+# De onde vem cada dado e como as colunas da fonte viram as colunas do modelo canônico
+# (docs/modelo-de-dados.md). Este arquivo aponta para os dados fictícios de dados_exemplo/;
+# para usar na sua empresa, copie para config/fontes.local.yaml (fora do Git) e troque as fontes.
+#
+# tipo: arquivo | sql | api | whatsapp     colunas: {nome_na_fonte: nome_canonico}
+# Segredos sempre como ${VARIAVEL}, definidos no .env (veja .env.example).
+
+veiculos:
+  tipo: sql
+  conexao: sqlite:///dados_exemplo/erp.sqlite
+  consulta: |
+    SELECT PLACA_VEIC AS placa, DESC_MODELO AS modelo, lower(CATEGORIA) AS grupo,
+           lower(TP_COMBUST) AS combustivel, CAP_TANQUE AS capacidade_tanque, FILIAL AS base,
+           SITUACAO AS status_cadastro, DT_SITUACAO AS data_status
+    FROM cad_veiculo
+
+ordens_servico:
+  tipo: sql
+  conexao: sqlite:///dados_exemplo/erp.sqlite
+  consulta: SELECT * FROM ordem_servico
+  colunas: {NR_OS: os_id, PLACA: placa, DT_ABERTURA: abertura, DT_FECHAMENTO: fechamento,
+            STATUS: status, FORNECEDOR: oficina, SERVICO: descricao, VL_TOTAL: valor}
+
+abastecimentos:
+  tipo: arquivo
+  caminho: dados_exemplo/cartao_frota.csv
+  separador: ";"
+  colunas: {Placa: placa, "Data/Hora": data_hora, Litros: litros, "Valor Total": valor,
+            Hodometro: odometro, "Tanque Cheio": tanque_cheio, Produto: combustivel,
+            Estabelecimento: posto, Cidade: cidade, Condutor: motorista}
+  # Com o cartão frota via API, seria algo assim (o token fica no .env):
+  # tipo: api
+  # url: https://api.seu-cartao-frota.com/v1/transacoes
+  # token: ${CARTAO_FROTA_TOKEN}
+  # registros_em: data
+  # paginacao: {parametro: page, tamanho_parametro: size, tamanho: 200}
+
+uso:
+  # Bases Norte e Centro: viagens do roteirizador (sem sigla = rodou)
+  - tipo: arquivo
+    caminho: dados_exemplo/viagens.csv
+  # Base Sul: diário de bordo em grade (placa x dia), siglas traduzidas por config/dicionario_status.csv
+  - tipo: grade
+    caminho: dados_exemplo/diario_base_sul.xlsx
+    abas: todas
+
+posicoes:
+  - tipo: arquivo
+    caminho: dados_exemplo/rastreador_a.csv
+    colunas: {lat: latitude, lon: longitude}
+    fixos: {fornecedor: Rastreador A}
+  - tipo: arquivo
+    caminho: dados_exemplo/rastreador_b.xlsx
+    placa_de: Veiculo                 # "Van 03 - ZZA-1B23" -> ZZA1B23
+    colunas: {"Ultima Comunicacao": data_hora, Latitude: latitude, Longitude: longitude,
+              Motor: ignicao, Local: endereco}
+    fixos: {fornecedor: Rastreador B}
+
+solicitacoes:
+  tipo: whatsapp
+  caminho: dados_exemplo/conversa_whatsapp.txt
+  gatilho: FORMULARIO DE ABASTECIMENTO
+
+# Decisões tomadas na conferência (ligar placa errada, ignorar linha, forçar situação).
+# Na empresa, use um arquivo fora do Git, ex.: config/decisoes.local.csv
+decisoes:
+  tipo: arquivo
+  caminho: dados_exemplo/decisoes.csv

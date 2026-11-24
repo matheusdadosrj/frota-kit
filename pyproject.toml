@@ -1,0 +1,20 @@
+[project]
+name = "frota-kit"
+version = "1.0.0"
+description = "Controle de frota a partir de qualquer fonte: disponibilidade, consumo real, alertas de abastecimento"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+authors = [{name = "Matheus Ramos Amorim dos Santos"}]
+dependencies = ["pandas>=2.1", "numpy>=1.26", "openpyxl>=3.1", "PyYAML>=6.0", "requests>=2.31", "python-dotenv>=1.0"]
+
+[project.optional-dependencies]
+painel = ["streamlit>=1.40"]
+sql = ["sqlalchemy>=2.0"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+frotakit = "frotakit.__main__:main"
+
+[tool.setuptools]
+packages = ["frotakit", "frotakit.adaptadores"]
